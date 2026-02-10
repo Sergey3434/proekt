@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админка - Гарант-Жилье</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--primary: #1E3A8A;
+--primary-dark: #172554;
+--secondary: #BFDBFE;
+--accent: #D4AF37;
+--text: #000000;
+--bg: #F5F7FA;
+--border: #E2E8F0;
+--text-secondary: #64748B;
+--shadow-sm: 0 2px 8px rgba(30, 58, 138, 0.08);
+--shadow-md: 0 6px 16px rgba(30, 58, 138, 0.12);
+--shadow-lg: 0 12px 28px rgba(30, 58, 138, 0.18);
+--transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+background: var(--bg);
+color: var(--text);
+padding: 20px;
+margin: 0;
+}
+.container {
+max-width: 1400px;
+margin: 0 auto;
+}
+.header {
+background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+color: white;
+padding: 30px;
+border-radius: 15px;
+margin-bottom: 30px;
+box-shadow: var(--shadow-lg);
+}
+.header h1 {
+font-size: 32px;
+margin-bottom: 10px;
+}
+.header p {
+opacity: 0.9;
+font-size: 16px;
+}
+.tabs {
+display: flex;
+gap: 10px;
+margin-bottom: 30px;
+flex-wrap: wrap;
+background: white;
+padding: 10px;
+border-radius: 12px;
+box-shadow: var(--shadow-sm);
+}
+.tab-btn {
+padding: 12px 24px;
+background: white;
+border: none;
+border-radius: 10px;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s;
+box-shadow: var(--shadow-sm);
+}
+.tab-btn:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+}
+.tab-btn.active {
+background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+color: white;
+}
+.tab-content {
+display: none;
+}
+.tab-content.active {
+display: block;
+}
+.card {
+background: white;
+border-radius: 15px;
+padding: 25px;
+margin-bottom: 25px;
+box-shadow: var(--shadow-md);
+}
+.card h2 {
+margin-bottom: 20px;
+color: var(--primary);
+font-size: 24px;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.card h2 svg {
+width: 24px;
+height: 24px;
+}
+.form-group {
+margin-bottom: 20px;
+}
+.form-group label {
+display: block;
+margin-bottom: 8px;
+font-weight: 600;
+color: var(--text-secondary);
+}
+.form-control {
+width: 100%;
+padding: 12px 15px;
+border: 2px solid var(--border);
+border-radius: 10px;
+font-size: 15px;
+transition: border-color 0.3s;
+}
+.form-control:focus {
+outline: none;
+border-color: var(--primary);
+}
+.form-control[type="file"] {
+padding: 3px;
+}
+textarea.form-control {
+min-height: 120px;
+resize: vertical;
+}
+.btn {
+padding: 12px 24px;
+border: none;
+border-radius: 10px;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+color: white;
+box-shadow: var(--shadow-md);
+}
+.btn-primary {
+background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+color: white;
+}
+.btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-lg);
+}
+.btn-primary:disabled {
+opacity: 0.6;
+cursor: not-allowed;
+transform: none;
+}
+.btn-danger {
+background: linear-gradient(135deg, #ef4444, #dc2626);
+color: white;
+}
+.btn-danger:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+.btn-success {
+background: linear-gradient(135deg, #10b981, #059669);
+color: white;
+}
+.btn-success:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+.btn-secondary {
+background: linear-gradient(135deg, #64748b, #475569);
+color: white;
+}
+.properties-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+gap: 20px;
+margin-top: 20px;
+}
+.property-card {
+background: white;
+border-radius: 12px;
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+transition: transform 0.3s;
+}
+.property-card:hover {
+transform: translateY(-5px);
+box-shadow: var(--shadow-md);
+}
+.property-image {
+height: 180px;
+background-size: cover;
+background-position: center;
+}
+.property-info {
+padding: 15px;
+}
+.property-title {
+font-weight: 700;
+font-size: 16px;
+margin-bottom: 8px;
+color: var(--primary);
+}
+.property-price {
+color: #10b981;
+font-weight: 600;
+margin-bottom: 5px;
+}
+.property-address {
+color: var(--text-secondary);
+font-size: 13px;
+margin-bottom: 10px;
+}
+.property-district {
+display: inline-block;
+background: #f0f4f8;
+color: var(--primary);
+padding: 4px 10px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: 600;
+margin-bottom: 8px;
+}
+.property-tags {
+display: flex;
+gap: 6px;
+margin: 8px 0;
+}
+.property-tag {
+font-size: 11px;
+font-weight: 600;
+padding: 3px 8px;
+border-radius: 12px;
+}
+.property-tag.hot {
+background: #ffedd5;
+color: #c2410c;
+}
+.property-tag.hit {
+background: #dbeafe;
+color: #1e40af;
+}
+.property-actions {
+display: flex;
+gap: 8px;
+margin-top: 10px;
+}
+.badge {
+display: inline-block;
+padding: 4px 10px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: 600;
+}
+.badge-primary {
+background: #bfdbfe;
+color: var(--primary);
+}
+.badge-success {
+background: #dcfce7;
+color: #059669;
+}
+.badge-danger {
+background: #fee2e2;
+color: #dc2626;
+}
+.orders-list, .requests-list {
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+.order-card, .request-card {
+background: white;
+border-radius: 12px;
+padding: 20px;
+box-shadow: var(--shadow-sm);
+border-left: 4px solid var(--primary);
+}
+.order-header, .request-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 15px;
+padding-bottom: 15px;
+border-bottom: 1px solid var(--border);
+}
+.order-number, .request-number {
+font-weight: 700;
+font-size: 18px;
+color: var(--primary);
+}
+.order-status, .request-status {
+padding: 6px 14px;
+border-radius: 20px;
+font-weight: 600;
+font-size: 14px;
+}
+.status-new {
+background: #ffedd5;
+color: #c2410c;
+}
+.status-process {
+background: #dbeafe;
+color: #1e40af;
+}
+.status-done {
+background: #dcfce7;
+color: #059669;
+}
+.order-body, .request-body {
+margin-bottom: 15px;
+}
+.order-item, .request-item {
+padding: 10px;
+background: #f8fafc;
+border-radius: 8px;
+margin-bottom: 8px;
+}
+.order-footer, .request-footer {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-top: 15px;
+border-top: 1px solid var(--border);
+}
+.banner-list {
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+.banner-item {
+display: flex;
+align-items: center;
+gap: 15px;
+padding: 15px;
+background: white;
+border-radius: 12px;
+box-shadow: var(--shadow-sm);
+position: relative;
+}
+.banner-image {
+width: 150px;
+height: 100px;
+background-size: cover;
+background-position: center;
+border-radius: 8px;
+}
+.banner-info {
+flex: 1;
+}
+.banner-title {
+font-weight: 600;
+margin-bottom: 5px;
+}
+.banner-link {
+color: var(--text-secondary);
+font-size: 13px;
+word-break: break-all;
+}
+.banner-page {
+font-size: 12px;
+font-weight: 600;
+padding: 4px 10px;
+border-radius: 20px;
+margin-bottom: 5px;
+}
+.banner-page.home {
+background: #bfdbfe;
+color: var(--primary);
+}
+.banner-page.thailand {
+background: #fbbf24;
+color: #92400e;
+}
+.banner-page.jk {
+background: #86efac;
+color: #065f46;
+}
+.banner-order {
+width: 60px;
+text-align: center;
+font-weight: 600;
+color: var(--primary);
+}
+.stats-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 20px;
+margin-top: 20px;
+}
+.stat-card {
+background: white;
+border-radius: 15px;
+padding: 25px;
+text-align: center;
+box-shadow: var(--shadow-md);
+}
+.stat-number {
+font-size: 42px;
+font-weight: 700;
+color: var(--primary);
+margin: 10px 0;
+}
+.stat-label {
+color: var(--text-secondary);
+font-size: 16px;
+}
+.empty-state {
+text-align: center;
+color: var(--text-secondary);
+padding: 40px 20px;
+font-style: italic;
+}
+.empty-state svg {
+width: 64px;
+height: 64px;
+margin-bottom: 20px;
+stroke: var(--text-secondary);
+stroke-width: 2;
+}
+.loading {
+text-align: center;
+padding: 40px;
+color: var(--text-secondary);
+}
+.loading-spinner {
+width: 40px;
+height: 40px;
+border: 4px solid var(--border);
+border-top-color: var(--primary);
+border-radius: 50%;
+animation: spin 0.8s linear infinite;
+margin: 0 auto 16px;
+}
+@keyframes spin {
+to { transform: rotate(360deg); }
+}
+.upload-progress-container {
+background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+border-radius: 12px;
+padding: 20px;
+margin: 20px 0;
+border: 2px solid var(--primary);
+box-shadow: var(--shadow-sm);
+display: none;
+}
+.upload-progress-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 15px;
+}
+.upload-progress-title {
+font-weight: 700;
+color: var(--primary);
+font-size: 16px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.upload-progress-title svg {
+width: 20px;
+height: 20px;
+}
+.upload-progress-percentage {
+font-weight: 700;
+color: var(--primary);
+font-size: 18px;
+}
+.progress-bar-outer {
+width: 100%;
+background: #e2e8f0;
+border-radius: 20px;
+height: 28px;
+overflow: hidden;
+margin-bottom: 12px;
+box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+.progress-bar-inner {
+height: 100%;
+background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+border-radius: 20px;
+width: 0%;
+transition: width 0.1s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-weight: 600;
+font-size: 14px;
+}
+.upload-status {
+font-size: 14px;
+color: var(--text-secondary);
+margin-top: 10px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.upload-status svg {
+width: 18px;
+height: 18px;
+}
+.upload-status.uploading {
+color: var(--primary);
+}
+.upload-status.success {
+color: #10b981;
+}
+.upload-status.error {
+color: #ef4444;
+}
+.upload-status.processing {
+color: #f59e0b;
+}
+.form-group-shifr {
+background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+border-left: 4px solid var(--primary);
+padding: 20px;
+border-radius: 10px;
+margin-bottom: 25px;
+box-shadow: var(--shadow-sm);
+}
+.form-group-shifr small {
+color: var(--text-secondary);
+font-size: 13px;
+display: block;
+margin-top: 8px;
+line-height: 1.5;
+}
+.form-group-shifr code {
+background: rgba(30, 58, 138, 0.1);
+padding: 2px 6px;
+border-radius: 4px;
+font-family: 'Courier New', monospace;
+font-weight: 600;
+}
+.search-box {
+margin-bottom: 20px;
+position: relative;
+}
+.search-input {
+width: 100%;
+padding: 12px 40px 12px 16px;
+border: 2px solid var(--border);
+border-radius: 12px;
+font-size: 15px;
+transition: border-color 0.3s;
+}
+.search-input:focus {
+outline: none;
+border-color: var(--primary);
+}
+.search-box::before {
+content: '🔍';
+position: absolute;
+right: 16px;
+top: 50%;
+transform: translateY(-50%);
+color: var(--text-secondary);
+font-size: 18px;
+}
+.action-buttons {
+display: flex;
+gap: 10px;
+}
+.action-buttons .btn {
+flex: 1;
+}
+.modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.5);
+z-index: 9999;
+justify-content: center;
+align-items: center;
+}
+.modal.active {
+display: flex;
+}
+.modal-content {
+background: white;
+border-radius: 15px;
+padding: 30px;
+max-width: 500px;
+width: 90%;
+box-shadow: var(--shadow-lg);
+}
+.modal-title {
+font-size: 20px;
+font-weight: 700;
+margin-bottom: 16px;
+color: var(--text);
+}
+.modal-text {
+color: var(--text-secondary);
+margin-bottom: 24px;
+line-height: 1.6;
+}
+.modal-buttons {
+display: flex;
+gap: 12px;
+}
+.modal-buttons .btn {
+flex: 1;
+}
+.categories-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+gap: 15px;
+margin-bottom: 25px;
+}
+.category-btn {
+background: white;
+border: 2px solid var(--primary);
+border-radius: 12px;
+padding: 15px;
+text-align: center;
+font-weight: 600;
+font-size: 14px;
+color: var(--primary);
+cursor: pointer;
+transition: all 0.3s;
+box-shadow: var(--shadow-sm);
+}
+.category-btn:hover {
+background: var(--primary);
+color: white;
+transform: translateY(-2px);
+box-shadow: var(--shadow-md);
+}
+.category-btn.active {
+background: var(--primary);
+color: white;
+}
+/* Стили для пользователей */
+.users-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+gap: 20px;
+margin-top: 20px;
+}
+.user-card {
+background: white;
+border-radius: 12px;
+overflow: hidden;
+box-shadow: var(--shadow-sm);
+transition: transform 0.3s;
+border-left: 4px solid var(--primary);
+}
+.user-card:hover {
+transform: translateY(-5px);
+box-shadow: var(--shadow-md);
+}
+.user-info {
+padding: 20px;
+}
+.user-username {
+font-weight: 700;
+font-size: 18px;
+margin-bottom: 5px;
+color: var(--primary);
+}
+.user-full-name {
+color: var(--text-secondary);
+font-size: 14px;
+margin-bottom: 10px;
+}
+.user-meta {
+margin-bottom: 15px;
+padding-bottom: 15px;
+border-bottom: 1px solid var(--border);
+}
+.user-meta p {
+color: var(--text-secondary);
+font-size: 13px;
+margin-bottom: 3px;
+}
+.user-actions {
+display: flex;
+gap: 8px;
+margin-top: 10px;
+}
+@media (max-width: 768px) {
+.properties-grid, .users-grid {
+grid-template-columns: 1fr;
+}
+.tabs {
+flex-direction: column;
+}
+.tab-btn {
+width: 100%;
+}
+.header {
+padding: 20px;
+}
+.header h1 {
+font-size: 24px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🏠 Админка - Гарант-Жилье</h1>
+<p>Управление объявлениями, заказами и настройками</p>
+</div>
+<div class="tabs">
+<button class="tab-btn active" onclick="showTab('dashboard')">📊 Дашборд</button>
+<button class="tab-btn" onclick="showTab('properties')">🏘️ Объявления</button>
+<button class="tab-btn" onclick="showTab('add-property')">➕ Добавить объявление</button>
+<button class="tab-btn" onclick="showTab('banners')">🖼️ Баннеры</button>
+<button class="tab-btn" onclick="showTab('orders')">📦 Заказы</button>
+<button class="tab-btn" onclick="showTab('requests')">📝 Заявки</button>
+<button class="tab-btn" onclick="showTab('users')">👤 Пользователи</button>
+</div>
+<!-- ДАШБОРД -->
+<div id="dashboard" class="tab-content active">
+<div class="stats-grid">
+<div class="stat-card">
+<div>Всего объявлений</div>
+<div class="stat-number" id="total-properties">0</div>
+<div class="stat-label">активных</div>
+</div>
+<div class="stat-card">
+<div>Заказов сегодня</div>
+<div class="stat-number" id="today-orders">0</div>
+<div class="stat-label">новых</div>
+</div>
+<div class="stat-card">
+<div>Новых заявок</div>
+<div class="stat-number" id="new-requests">0</div>
+<div class="stat-label">в ожидании</div>
+</div>
+<div class="stat-card">
+<div>Баннеров</div>
+<div class="stat-number" id="total-banners">0</div>
+<div class="stat-label">активных</div>
+</div>
+<div class="stat-card">
+<div>Районов</div>
+<div class="stat-number" id="total-districts">0</div>
+<div class="stat-label">в фильтре</div>
+</div>
+<div class="stat-card">
+<div>Пользователей</div>
+<div class="stat-number" id="total-users">0</div>
+<div class="stat-label">активных</div>
+</div>
+</div>
+<div class="card">
+<h2>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M12 20h9"></path>
+<path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+</svg>
+Последние заказы
+</h2>
+<div id="recent-orders"></div>
+</div>
+<div class="card">
+<h2>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M12 20h9"></path>
+<path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+</svg>
+Последние заявки
+</h2>
+<div id="recent-requests"></div>
+</div>
+</div>
+<!-- ОБЪЯВЛЕНИЯ -->
+<div id="properties" class="tab-content">
+<div class="card">
+<h2>📋 Все объявления</h2>
+<div class="categories-grid">
+<button class="category-btn active" onclick="filterPropertiesByCategory('all')">Все</button>
+<button class="category-btn" onclick="filterPropertiesByCategory('primary')">Новостройки</button>
+<button class="category-btn" onclick="filterPropertiesByCategory('secondary')">Вторичка</button>
+<button class="category-btn" onclick="filterPropertiesByCategory('thailand')">Таиланд</button>
+</div>
+<div class="search-box">
+<input type="text" class="search-input" id="properties-search" placeholder="Поиск по номеру, названию или адресу..." oninput="searchProperties()">
+</div>
+<div id="properties-list" class="properties-grid"></div>
+</div>
+</div>
+<!-- ДОБАВИТЬ ОБЪЯВЛЕНИЕ -->
+<div id="add-property" class="tab-content">
+<div class="card">
+<h2>➕ Новое объявление</h2>
+<form id="property-form" enctype="multipart/form-data">
+<div class="form-group-shifr">
+<label>Уникальный идентификатор (Шифр) *</label>
+<input type="text" class="form-control" name="property_number" placeholder="Например: NOVIKOV344, IVANOV123" required>
+<small>💡 <strong>Важно:</strong> Этот шифр будет использоваться для поиска объявления в каталоге и админке. Он должен быть уникальным (например: <code>NOVIKOV344</code>, <code>IVANOV123</code>, <code>SMITH567</code>). Если оставить пустым, система сгенерирует автоматический номер.</small>
+</div>
+<div class="form-group">
+<label>Заголовок *</label>
+<input type="text" class="form-control" name="title" required placeholder="Например: 2-комн. квартира у метро">
+</div>
+<div class="form-group">
+<label>Цена *</label>
+<input type="text" class="form-control" name="price" required placeholder="от 12 300 000 ₽">
+</div>
+<div class="form-group">
+<label>Рынок *</label>
+<select class="form-control" name="market" required>
+<option value="primary">Новостройки</option>
+<option value="secondary">Вторичка</option>
+<option value="thailand">Таиланд</option>
+</select>
+</div>
+<div class="form-group">
+<label>Тип *</label>
+<select class="form-control" name="type" required>
+<option value="apartment">Квартира</option>
+<option value="house">Дом</option>
+</select>
+</div>
+<div class="form-group">
+<label>Жилой комплекс (для новостроек)</label>
+<input type="text" class="form-control" name="jk" placeholder="Например: Горизонт">
+</div>
+<div class="form-group">
+<label>Район *</label>
+<input type="text" class="form-control" name="district" required placeholder="Например: Центральный, Кировский">
+<small style="color: var(--text-secondary); font-size: 12px;">Этот район будет добавлен в фильтр районов</small>
+</div>
+<div class="form-group">
+<label>Адрес *</label>
+<input type="text" class="form-control" name="address" required placeholder="ул. Ленина, 42, Москва">
+</div>
+<div class="form-group">
+<label>Описание *</label>
+<textarea class="form-control" name="description" required placeholder="Описание объекта..."></textarea>
+</div>
+<div class="form-group">
+<label>Изображения (до 50 файлов) *</label>
+<input type="file" class="form-control" id="images-input" name="images" multiple accept="image/*" required onchange="validateFiles()">
+</div>
+<div id="upload-progress-container" class="upload-progress-container">
+<div class="upload-progress-header">
+<div class="upload-progress-title">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M12 5v14M5 12h14"></path>
+</svg>
+Загрузка фотографий на сервер
+</div>
+<div class="upload-progress-percentage" id="progress-percentage">0%</div>
+</div>
+<div class="progress-bar-outer">
+<div class="progress-bar-inner" id="progress-bar-inner" style="width: 0%">0%</div>
+</div>
+<div class="upload-status uploading" id="upload-status">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+Подготовка к отправке...
+</div>
+</div>
+<div class="form-group">
+<label>
+<input type="checkbox" name="is_hot" value="on">
+Отображать в "Горячих предложениях" на главной
+</label>
+</div>
+<div class="form-group">
+<label>
+<input type="checkbox" name="is_hit" value="on">
+Отображать в "Хитах продаж" на главной
+</label>
+</div>
+<button type="submit" id="submit-btn" class="btn btn-primary" disabled>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M12 5v14M5 12h14"></path>
+</svg>
+Создать объявление
+</button>
+</form>
+</div>
+</div>
+<!-- БАННЕРЫ -->
+<div id="banners" class="tab-content">
+<div class="card">
+<h2>➕ Добавить баннер</h2>
+<form id="banner-form" enctype="multipart/form-data">
+<div class="form-group">
+<label>Изображение баннера *</label>
+<input type="file" class="form-control" name="image" accept="image/*" required>
+</div>
+<div class="form-group">
+<label>Заголовок (опционально)</label>
+<input type="text" class="form-control" name="title" placeholder="Например: Только этой неделей!">
+</div>
+<div class="form-group">
+<label>Страница *</label>
+<select class="form-control" name="page" id="banner-page" required onchange="toggleBannerFields()">
+<option value="home">Главная страница</option>
+<option value="thailand">Страница Таиланда</option>
+</select>
+</div>
+<div class="form-group" id="target-property-group" style="display: none;">
+<label>Объявление (для баннеров Таиланда) *</label>
+<select class="form-control" name="target_property_id" id="target-property-select">
+<option value="">Выберите объявление...</option>
+</select>
+</div>
+<div class="form-group" id="banner-order-group">
+<label>Порядковый номер *</label>
+<input type="number" class="form-control" name="order" min="1" max="10" value="1" required>
+</div>
+<div class="form-group" id="banner-link-group">
+<label>Ссылка (для баннеров главной)</label>
+<input type="url" class="form-control" name="link" placeholder="https://example.com">
+</div>
+<button type="submit" class="btn btn-primary">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M12 5v14M5 12h14"></path>
+</svg>
+Добавить баннер
+</button>
+</form>
+</div>
+<div class="card">
+<h2>🖼️ Список баннеров</h2>
+<div id="banners-list" class="banner-list"></div>
+</div>
+</div>
+<!-- ЗАКАЗЫ -->
+<div id="orders" class="tab-content">
+<div class="card">
+<h2>📦 Все заказы</h2>
+<div class="search-box">
+<input type="text" class="search-input" id="orders-search" placeholder="Поиск по номеру, имени или телефону..." oninput="searchOrders()">
+</div>
+<div id="orders-list" class="orders-list"></div>
+</div>
+</div>
+<!-- ЗАЯВКИ -->
+<div id="requests" class="tab-content">
+<div class="card">
+<h2>📝 Все заявки</h2>
+<div class="search-box">
+<input type="text" class="search-input" id="requests-search" placeholder="Поиск по номеру, имени, телефону или адресу..." oninput="searchRequests()">
+</div>
+<div id="requests-list" class="requests-list"></div>
+</div>
+</div>
+<!-- ПОЛЬЗОВАТЕЛИ -->
+<div id="users" class="tab-content">
+<div class="card">
+<h2>👤 Управление пользователями</h2>
+<button class="btn btn-primary" onclick="showAddUserModal()" style="margin-bottom: 20px;">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M12 5v14M5 12h14"></path>
+</svg>
+Добавить пользователя
+</button>
+<div class="search-box">
+<input type="text" class="search-input" id="users-search" placeholder="Поиск по логину или имени..." oninput="searchUsers()">
+</div>
+<div id="users-list" class="users-grid"></div>
+</div>
+</div>
+</div>
+<!-- МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ -->
+<div id="delete-modal" class="modal">
+<div class="modal-content">
+<h3 class="modal-title">⚠️ Подтверждение удаления</h3>
+<p class="modal-text" id="delete-modal-text">Вы уверены, что хотите удалить этот элемент? Это действие нельзя отменить.</p>
+<div class="modal-buttons">
+<button class="btn btn-danger" onclick="confirmDelete()">Удалить</button>
+<button class="btn btn-primary" onclick="closeDeleteModal()">Отмена</button>
+</div>
+</div>
+</div>
+<!-- МОДАЛЬНОЕ ОКНО ДОБАВЛЕНИЯ ПОЛЬЗОВАТЕЛЯ -->
+<div id="add-user-modal" class="modal">
+<div class="modal-content" style="max-width: 500px;">
+<h3 class="modal-title">➕ Новый пользователь</h3>
+<form id="add-user-form">
+<div class="form-group">
+<label>Логин *</label>
+<input type="text" class="form-control" name="username" required placeholder="Например: ivanov">
+<small style="color: var(--text-secondary); font-size: 12px;">Только латинские буквы, цифры, без пробелов</small>
+</div>
+<div class="form-group">
+<label>Пароль *</label>
+<input type="password" class="form-control" name="password" required placeholder="Минимум 6 символов">
+<small style="color: var(--text-secondary); font-size: 12px;">Сохраните пароль - он не будет показан после создания</small>
+</div>
+<div class="form-group">
+<label>ФИО (опционально)</label>
+<input type="text" class="form-control" name="full_name" placeholder="Например: Иванов Иван Иванович">
+</div>
+<div class="modal-buttons">
+<button type="submit" class="btn btn-primary">Создать</button>
+<button type="button" class="btn btn-secondary" onclick="closeAddUserModal()">Отмена</button>
+</div>
+</form>
+</div>
+</div>
+<script>
+const API_BASE = 'http://localhost:5000/api/admin';
+let deleteType = null;
+let deleteId = null;
+let currentCategory = 'all';
+let selectedFiles = [];
+
+function showTab(tabId) {
+document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+document.getElementById(tabId).classList.add('active');
+event.target.classList.add('active');
+if (tabId === 'dashboard') loadDashboard();
+if (tabId === 'properties') {
+currentCategory = 'all';
+document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+document.querySelector('.category-btn:first-child').classList.add('active');
+loadProperties();
+document.getElementById('properties-search').value = '';
+}
+if (tabId === 'banners') {
+loadBanners();
+loadThailandPropertiesForSelect();
+}
+if (tabId === 'orders') {
+loadOrders();
+document.getElementById('orders-search').value = '';
+}
+if (tabId === 'requests') {
+loadRequests();
+document.getElementById('requests-search').value = '';
+}
+if (tabId === 'users') {
+loadUsers();
+document.getElementById('users-search').value = '';
+}
+}
+
+function filterPropertiesByCategory(category) {
+currentCategory = category;
+document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+event.target.classList.add('active');
+loadProperties();
+}
+
+function validateFiles() {
+const filesInput = document.getElementById('images-input');
+const submitBtn = document.getElementById('submit-btn');
+const progressContainer = document.getElementById('upload-progress-container');
+selectedFiles = Array.from(filesInput.files);
+if (selectedFiles.length === 0) {
+progressContainer.style.display = 'none';
+submitBtn.disabled = true;
+return;
+}
+if (selectedFiles.length > 50) {
+alert(`Максимум 50 фото! Вы выбрали ${selectedFiles.length}`);
+filesInput.value = '';
+progressContainer.style.display = 'none';
+submitBtn.disabled = true;
+return;
+}
+const maxSize = 30 * 1024 * 1024;
+const tooLargeFiles = selectedFiles.filter(file => file.size > maxSize);
+if (tooLargeFiles.length > 0) {
+alert(`Некоторые файлы слишком большие! Максимум 5 МБ на файл.
+Слишком большие: ${tooLargeFiles.map(f => f.name).join(', ')}`);
+filesInput.value = '';
+progressContainer.style.display = 'none';
+submitBtn.disabled = true;
+return;
+}
+submitBtn.disabled = false;
+}
+
+async function loadDashboard() {
+try {
+const [propertiesRes, ordersRes, requestsRes, bannersRes, usersRes] = await Promise.all([
+fetch(`${API_BASE}/properties`),
+fetch(`${API_BASE}/orders`),
+fetch(`${API_BASE}/sell-requests`),
+fetch(`${API_BASE}/banners`),
+fetch(`${API_BASE}/users`)
+]);
+const properties = await propertiesRes.json();
+const orders = await ordersRes.json();
+const requests = await requestsRes.json();
+const banners = await bannersRes.json();
+const users = await usersRes.json();
+document.getElementById('total-properties').textContent = properties.filter(p => p.is_active).length;
+document.getElementById('total-banners').textContent = banners.filter(b => b.is_active).length;
+document.getElementById('total-users').textContent = users.filter(u => u.is_active).length;
+const today = new Date().toISOString().split('T')[0];
+const todayOrders = orders.filter(o => o.created_at.startsWith(today));
+document.getElementById('today-orders').textContent = todayOrders.length;
+const newRequests = requests.filter(r => r.status === 'Новая');
+document.getElementById('new-requests').textContent = newRequests.length;
+const districts = [...new Set(properties
+.filter(p => p.is_active)
+.map(p => p.district || p.address.split(',')[0].trim())
+.filter(Boolean)
+)];
+document.getElementById('total-districts').textContent = districts.length;
+const recentOrdersHtml = orders.slice(0, 5).map(order => `
+<div class="order-card">
+<div class="order-header">
+<span class="order-number">#${order.order_number}</span>
+<span class="order-status ${getStatusClass(order.status)}">${order.status}</span>
+</div>
+<div class="order-body">
+${order.items.map(item => `
+<div class="order-item">
+<strong>${item.title}</strong><br>
+${item.address} — ${item.price}
+</div>
+`).join('')}
+</div>
+<div class="order-footer">
+<span>📞 ${order.customer_phone || '—'}</span>
+<span>📅 ${new Date(order.created_at).toLocaleDateString('ru-RU')}</span>
+<button class="btn btn-success" onclick="updateOrderStatus(${order.id}, 'В работе')">В работу</button>
+</div>
+</div>
+`).join('');
+document.getElementById('recent-orders').innerHTML = recentOrdersHtml || '<div class="empty-state">Нет заказов</div>';
+const recentRequestsHtml = requests.slice(0, 5).map(req => `
+<div class="request-card">
+<div class="request-header">
+<span class="request-number">#${req.request_number}</span>
+<span class="request-status ${getStatusClass(req.status)}">${req.status}</span>
+</div>
+<div class="request-body">
+<div class="request-item">
+<strong>Тип:</strong> ${req.type === 'buy' ? 'Покупка' : 'Продажа'}<br>
+<strong>Имя:</strong> ${req.name}<br>
+<strong>Телефон:</strong> ${req.phone}<br>
+<strong>Адрес:</strong> ${req.address}<br>
+<strong>Описание:</strong> ${req.description}
+</div>
+</div>
+<div class="request-footer">
+<span>📅 ${new Date(req.created_at).toLocaleDateString('ru-RU')}</span>
+<button class="btn btn-success" onclick="updateRequestStatus(${req.id}, 'В работу')">В работу</button>
+</div>
+</div>
+`).join('');
+document.getElementById('recent-requests').innerHTML = recentRequestsHtml || '<div class="empty-state">Нет заявок</div>';
+} catch (error) {
+console.error('Ошибка загрузки дашборда:', error);
+alert('Ошибка загрузки данных. Проверьте консоль браузера (F12) для деталей.');
+}
+}
+
+async function loadProperties() {
+try {
+const response = await fetch(`${API_BASE}/properties`);
+let properties = await response.json();
+if (currentCategory !== 'all') {
+properties = properties.filter(p => p.market === currentCategory);
+}
+const activeProperties = properties.filter(p => p.is_active);
+const html = activeProperties.map(prop => `
+<div class="property-card" id="property-${prop.id}">
+<div class="property-image" style="background-image: url('${prop.images[0]}')"></div>
+<div class="property-info">
+${prop.district ? `<div class="property-district">${prop.district}</div>` : ''}
+<div class="property-title">${prop.property_number} - ${prop.title}</div>
+<div class="property-price">${prop.price}</div>
+<div class="property-address">${prop.address}</div>
+<div class="property-tags">
+${prop.is_hot ? `<span class="property-tag hot">🔥 Горячее</span>` : ''}
+${prop.is_hit ? `<span class="property-tag hit">⭐ Хит</span>` : ''}
+</div>
+<div style="margin: 10px 0;">
+<span class="badge badge-primary">${prop.market}</span>
+<span class="badge badge-primary">${prop.type}</span>
+${prop.jk ? `<span class="badge badge-primary">${prop.jk}</span>` : ''}
+<span class="badge badge-success">Активно</span>
+</div>
+<div class="property-actions">
+<button class="btn btn-primary" onclick="editProperty(${prop.id})">✏️ Редактировать</button>
+<button class="btn btn-danger" onclick="prepareDelete('property', ${prop.id})">🗑️ Удалить</button>
+</div>
+</div>
+</div>
+`).join('');
+document.getElementById('properties-list').innerHTML = html || '<div class="empty-state">Нет объявлений</div>';
+} catch (error) {
+console.error('Ошибка загрузки объявлений:', error);
+alert('Ошибка загрузки объявлений. Проверьте консоль браузера (F12) для деталей.');
+}
+}
+
+async function loadBanners() {
+try {
+const response = await fetch(`${API_BASE}/banners`);
+const banners = await response.json();
+const activeBanners = banners.filter(b => b.is_active);
+const html = activeBanners.map(banner => `
+<div class="banner-item" id="banner-${banner.id}">
+<div class="banner-order">#${banner.order}</div>
+<div class="banner-image" style="background-image: url('${banner.image}')"></div>
+<div class="banner-info">
+<div class="banner-page ${banner.page}">${getPageName(banner.page)}</div>
+<div class="banner-title">${banner.title || 'Без названия'}</div>
+${banner.page === 'home' ?
+`<div class="banner-link">${banner.link || '—'}</div>` :
+banner.page === 'thailand' ?
+`<div class="banner-link">Объект: #${banner.target_property_id || '—'}</div>` :
+`<div class="banner-link">ЖК: ${banner.target_jk || '—'}, ${banner.market || '—'}, ${banner.type || '—'}</div>`
+}
+</div>
+<div style="display: flex; gap: 10px;">
+<button class="btn btn-primary" onclick="editBanner(${banner.id})">✏️</button>
+<button class="btn btn-danger" onclick="prepareDelete('banner', ${banner.id})">🗑️</button>
+</div>
+</div>
+`).join('');
+document.getElementById('banners-list').innerHTML = html || '<div class="empty-state">Нет баннеров</div>';
+} catch (error) {
+console.error('Ошибка загрузки баннеров:', error);
+alert('Ошибка загрузки баннеров. Проверьте консоль браузера (F12) для деталей.');
+}
+}
+
+function getPageName(page) {
+const names = { 'home': 'Главная', 'thailand': 'Таиланд', 'jk': 'ЖК' };
+return names[page] || page;
+}
+
+async function loadThailandPropertiesForSelect() {
+try {
+const response = await fetch('http://localhost:5000/api/thailand');
+const properties = await response.json();
+const select = document.getElementById('target-property-select');
+select.innerHTML = '<option value="">Выберите объявление...</option>' +
+properties.map(prop => `<option value="${prop.id}">${prop.property_number} - ${prop.title} - ${prop.price}</option>`).join('');
+} catch (error) {
+console.error('Ошибка загрузки объявлений Таиланда:', error);
+}
+}
+
+async function loadOrders() {
+try {
+const response = await fetch(`${API_BASE}/orders`);
+const orders = await response.json();
+const html = orders.map(order => `
+<div class="order-card" id="order-${order.id}">
+<div class="order-header">
+<span class="order-number">#${order.order_number}</span>
+<span class="order-status ${getStatusClass(order.status)}">${order.status}</span>
+</div>
+<div class="order-body">
+${order.items.map(item => `
+<div class="order-item">
+<strong>${item.title}</strong><br>
+${item.address} — ${item.price}
+</div>
+`).join('')}
+<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+<strong>Клиент:</strong> ${order.customer_name || '—'}<br>
+<strong>Телефон:</strong> ${order.customer_phone || '—'}<br>
+<strong>Telegram ID:</strong> ${order.customer_tg_id || '—'}
+</div>
+</div>
+<div class="order-footer">
+<span>📅 ${new Date(order.created_at).toLocaleString('ru-RU')}</span>
+<div class="action-buttons">
+<button class="btn btn-success" onclick="updateOrderStatus(${order.id}, 'В работу')">В работу</button>
+<button class="btn btn-primary" onclick="updateOrderStatus(${order.id}, 'Завершен')">Завершить</button>
+<button class="btn btn-danger" onclick="prepareDelete('order', ${order.id})">Удалить</button>
+</div>
+</div>
+</div>
+`).join('');
+document.getElementById('orders-list').innerHTML = html || '<div class="empty-state">Нет заказов</div>';
+} catch (error) {
+console.error('Ошибка загрузки заказов:', error);
+}
+}
+
+async function loadRequests() {
+try {
+const response = await fetch(`${API_BASE}/sell-requests`);
+const requests = await response.json();
+const html = requests.map(req => `
+<div class="request-card" id="request-${req.id}">
+<div class="request-header">
+<span class="request-number">#${req.request_number}</span>
+<span class="request-status ${getStatusClass(req.status)}">${req.status}</span>
+</div>
+<div class="request-body">
+<div class="request-item">
+<strong>Тип:</strong> ${req.type === 'buy' ? 'Покупка' : 'Продажа'}<br>
+<strong>Имя:</strong> ${req.name}<br>
+<strong>Телефон:</strong> ${req.phone}<br>
+<strong>Адрес:</strong> ${req.address}<br>
+<strong>Описание:</strong> ${req.description}
+</div>
+${req.photos && req.photos.length > 0 ? `
+<div style="margin-top: 10px;">
+<strong>Фото:</strong>
+<div style="display: flex; gap: 5px; margin-top: 5px;">
+${req.photos.map(photo => `<img src="${photo}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">`).join('')}
+</div>
+</div>
+` : ''}
+</div>
+<div class="request-footer">
+<span>📅 ${new Date(req.created_at).toLocaleString('ru-RU')}</span>
+<div class="action-buttons">
+<button class="btn btn-success" onclick="updateRequestStatus(${req.id}, 'В работу')">В работу</button>
+<button class="btn btn-primary" onclick="updateRequestStatus(${req.id}, 'Завершена')">Завершить</button>
+<button class="btn btn-danger" onclick="prepareDelete('request', ${req.id})">Удалить</button>
+</div>
+</div>
+</div>
+`).join('');
+document.getElementById('requests-list').innerHTML = html || '<div class="empty-state">Нет заявок</div>';
+} catch (error) {
+console.error('Ошибка загрузки заявок:', error);
+}
+}
+
+// === ФУНКЦИИ ПОЛЬЗОВАТЕЛЕЙ ===
+async function loadUsers() {
+try {
+const response = await fetch(`${API_BASE}/users`);
+const users = await response.json();
+const html = users.map(user => `
+<div class="user-card" style="border-left: 4px solid ${user.is_active ? 'var(--primary)' : '#ef4444'};">
+<div class="user-info">
+<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+<div>
+<h3 class="user-username">${user.username}</h3>
+<p class="user-full-name">${user.full_name || '—'}</p>
+</div>
+<span class="badge ${user.is_active ? 'badge-success' : 'badge-danger'}" style="font-size: 12px;">
+${user.is_active ? '✅ Активен' : '❌ Неактивен'}
+</span>
+</div>
+<div class="user-meta">
+<p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 3px;">
+<strong>Дата создания:</strong> ${new Date(user.created_at).toLocaleDateString('ru-RU', {day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'})}
+</p>
+${user.last_login ? `
+<p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 3px;">
+<strong>Последний вход:</strong> ${new Date(user.last_login).toLocaleDateString('ru-RU', {day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'})}
+</p>
+` : ''}
+</div>
+<div class="user-actions">
+<button class="btn btn-primary" onclick="editUser(${user.id}, '${user.username}', '${user.full_name || ''}', ${user.is_active})">✏️ Редактировать</button>
+<button class="btn btn-danger" onclick="prepareDelete('user', ${user.id})">🗑️ ${user.is_active ? 'Деактивировать' : 'Удалить'}</button>
+</div>
+</div>
+</div>
+`).join('');
+document.getElementById('users-list').innerHTML = html || '<div class="empty-state">Нет пользователей</div>';
+} catch (error) {
+console.error('Ошибка загрузки пользователей:', error);
+alert('Ошибка загрузки пользователей');
+}
+}
+
+function searchUsers() {
+const query = document.getElementById('users-search').value.trim().toLowerCase();
+if (!query) {
+loadUsers();
+return;
+}
+fetch(`${API_BASE}/users`)
+.then(res => res.json())
+.then(users => {
+const filtered = users.filter(u =>
+u.username.toLowerCase().includes(query) ||
+(u.full_name && u.full_name.toLowerCase().includes(query))
+);
+const html = filtered.map(user => `
+<div class="user-card" style="border-left: 4px solid ${user.is_active ? 'var(--primary)' : '#ef4444'};">
+<div class="user-info">
+<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+<div>
+<h3 class="user-username">${user.username}</h3>
+<p class="user-full-name">${user.full_name || '—'}</p>
+</div>
+<span class="badge ${user.is_active ? 'badge-success' : 'badge-danger'}" style="font-size: 12px;">
+${user.is_active ? '✅ Активен' : '❌ Неактивен'}
+</span>
+</div>
+<div class="user-meta">
+<p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 3px;">
+<strong>Дата создания:</strong> ${new Date(user.created_at).toLocaleDateString('ru-RU', {day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'})}
+</p>
+${user.last_login ? `
+<p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 3px;">
+<strong>Последний вход:</strong> ${new Date(user.last_login).toLocaleDateString('ru-RU', {day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'})}
+</p>
+` : ''}
+</div>
+<div class="user-actions">
+<button class="btn btn-primary" onclick="editUser(${user.id}, '${user.username}', '${user.full_name || ''}', ${user.is_active})">✏️ Редактировать</button>
+<button class="btn btn-danger" onclick="prepareDelete('user', ${user.id})">🗑️ ${user.is_active ? 'Деактивировать' : 'Удалить'}</button>
+</div>
+</div>
+</div>
+`).join('');
+document.getElementById('users-list').innerHTML = html || '<div class="empty-state">Ничего не найдено</div>';
+})
+.catch(error => console.error('Ошибка поиска:', error));
+}
+
+function showAddUserModal() {
+document.getElementById('add-user-modal').classList.add('active');
+document.getElementById('add-user-form').reset();
+}
+
+function closeAddUserModal() {
+document.getElementById('add-user-modal').classList.remove('active');
+}
+
+document.getElementById('add-user-form').addEventListener('submit', async (e) => {
+e.preventDefault();
+const formData = new FormData(e.target);
+const data = {
+username: formData.get('username'),
+password: formData.get('password'),
+full_name: formData.get('full_name')
+};
+try {
+const response = await fetch(`${API_BASE}/users`, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify(data)
+});
+const result = await response.json();
+if (result.success) {
+alert(result.message);
+closeAddUserModal();
+loadUsers();
+loadDashboard();
+} else {
+alert('❌ ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка создания пользователя:', error);
+alert('❌ Ошибка при создании пользователя');
+}
+});
+
+function editUser(id, username, fullName, isActive) {
+const newUsername = prompt('Изменить логин:', username);
+if (newUsername === null) return;
+const newFullName = prompt('Изменить ФИО:', fullName);
+if (newFullName === null) return;
+const newIsActive = confirm('Активен?');
+fetch(`${API_BASE}/users/${id}`, {
+method: 'PUT',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({
+username: newUsername,
+full_name: newFullName,
+is_active: newIsActive
+})
+})
+.then(res => res.json())
+.then(result => {
+if (result.success) {
+alert(result.message);
+loadUsers();
+} else {
+alert('❌ ' + result.error);
+}
+})
+.catch(error => {
+console.error('Ошибка обновления:', error);
+alert('❌ Ошибка при обновлении');
+});
+}
+
+async function deleteUser(id) {
+try {
+const response = await fetch(`${API_BASE}/users/${id}`, { method: 'DELETE' });
+const result = await response.json();
+if (result.success) {
+alert(result.message);
+loadUsers();
+loadDashboard();
+} else {
+alert('❌ ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка удаления:', error);
+alert('❌ Ошибка при удалении');
+}
+}
+
+// === ФУНКЦИИ ПОИСКА ===
+function searchProperties() {
+const query = document.getElementById('properties-search').value.trim().toLowerCase();
+if (!query) {
+loadProperties();
+return;
+}
+fetch(`${API_BASE}/properties?search=${encodeURIComponent(query)}`)
+.then(res => res.json())
+.then(properties => {
+if (currentCategory !== 'all') {
+properties = properties.filter(p => p.market === currentCategory);
+}
+const activeProperties = properties.filter(p => p.is_active);
+const html = activeProperties.map(prop => `
+<div class="property-card" id="property-${prop.id}">
+<div class="property-image" style="background-image: url('${prop.images[0]}')"></div>
+<div class="property-info">
+${prop.district ? `<div class="property-district">${prop.district}</div>` : ''}
+<div class="property-title">${prop.property_number} - ${prop.title}</div>
+<div class="property-price">${prop.price}</div>
+<div class="property-address">${prop.address}</div>
+<div class="property-tags">
+${prop.is_hot ? `<span class="property-tag hot">🔥 Горячее</span>` : ''}
+${prop.is_hit ? `<span class="property-tag hit">⭐ Хит</span>` : ''}
+</div>
+<div style="margin: 10px 0;">
+<span class="badge badge-primary">${prop.market}</span>
+<span class="badge badge-primary">${prop.type}</span>
+${prop.jk ? `<span class="badge badge-primary">${prop.jk}</span>` : ''}
+<span class="badge badge-success">Активно</span>
+</div>
+<div class="property-actions">
+<button class="btn btn-primary" onclick="editProperty(${prop.id})">✏️ Редактировать</button>
+<button class="btn btn-danger" onclick="prepareDelete('property', ${prop.id})">🗑️ Удалить</button>
+</div>
+</div>
+</div>
+`).join('');
+document.getElementById('properties-list').innerHTML = html || '<div class="empty-state">Ничего не найдено</div>';
+})
+.catch(error => console.error('Ошибка поиска:', error));
+}
+
+function searchOrders() {
+const query = document.getElementById('orders-search').value.trim().toLowerCase();
+if (!query) {
+loadOrders();
+return;
+}
+fetch(`${API_BASE}/orders?search=${encodeURIComponent(query)}`)
+.then(res => res.json())
+.then(orders => {
+const html = orders.map(order => `
+<div class="order-card" id="order-${order.id}">
+<div class="order-header">
+<span class="order-number">#${order.order_number}</span>
+<span class="order-status ${getStatusClass(order.status)}">${order.status}</span>
+</div>
+<div class="order-body">
+${order.items.map(item => `
+<div class="order-item">
+<strong>${item.title}</strong><br>
+${item.address} — ${item.price}
+</div>
+`).join('')}
+<div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+<strong>Клиент:</strong> ${order.customer_name || '—'}<br>
+<strong>Телефон:</strong> ${order.customer_phone || '—'}<br>
+<strong>Telegram ID:</strong> ${order.customer_tg_id || '—'}
+</div>
+</div>
+<div class="order-footer">
+<span>📅 ${new Date(order.created_at).toLocaleString('ru-RU')}</span>
+<div class="action-buttons">
+<button class="btn btn-success" onclick="updateOrderStatus(${order.id}, 'В работу')">В работу</button>
+<button class="btn btn-primary" onclick="updateOrderStatus(${order.id}, 'Завершен')">Завершить</button>
+<button class="btn btn-danger" onclick="prepareDelete('order', ${order.id})">Удалить</button>
+</div>
+</div>
+</div>
+`).join('');
+document.getElementById('orders-list').innerHTML = html || '<div class="empty-state">Ничего не найдено</div>';
+})
+.catch(error => console.error('Ошибка поиска:', error));
+}
+
+function searchRequests() {
+const query = document.getElementById('requests-search').value.trim().toLowerCase();
+if (!query) {
+loadRequests();
+return;
+}
+fetch(`${API_BASE}/sell-requests?search=${encodeURIComponent(query)}`)
+.then(res => res.json())
+.then(requests => {
+const html = requests.map(req => `
+<div class="request-card" id="request-${req.id}">
+<div class="request-header">
+<span class="request-number">#${req.request_number}</span>
+<span class="request-status ${getStatusClass(req.status)}">${req.status}</span>
+</div>
+<div class="request-body">
+<div class="request-item">
+<strong>Тип:</strong> ${req.type === 'buy' ? 'Покупка' : 'Продажа'}<br>
+<strong>Имя:</strong> ${req.name}<br>
+<strong>Телефон:</strong> ${req.phone}<br>
+<strong>Адрес:</strong> ${req.address}<br>
+<strong>Описание:</strong> ${req.description}
+</div>
+${req.photos && req.photos.length > 0 ? `
+<div style="margin-top: 10px;">
+<strong>Фото:</strong>
+<div style="display: flex; gap: 5px; margin-top: 5px;">
+${req.photos.map(photo => `<img src="${photo}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">`).join('')}
+</div>
+</div>
+` : ''}
+</div>
+<div class="request-footer">
+<span>📅 ${new Date(req.created_at).toLocaleString('ru-RU')}</span>
+<div class="action-buttons">
+<button class="btn btn-success" onclick="updateRequestStatus(${req.id}, 'В работу')">В работу</button>
+<button class="btn btn-primary" onclick="updateRequestStatus(${req.id}, 'Завершена')">Завершить</button>
+<button class="btn btn-danger" onclick="prepareDelete('request', ${req.id})">Удалить</button>
+</div>
+</div>
+</div>
+`).join('');
+document.getElementById('requests-list').innerHTML = html || '<div class="empty-state">Ничего не найдено</div>';
+})
+.catch(error => console.error('Ошибка поиска:', error));
+}
+
+// === ФУНКЦИИ УПРАВЛЕНИЯ ===
+async function deleteProperty(id) {
+try {
+const response = await fetch(`${API_BASE}/properties/${id}`, { method: 'DELETE' });
+const result = await response.json();
+if (result.success) {
+alert('✅ Объявление удалено');
+document.getElementById(`property-${id}`).remove();
+loadDashboard();
+if (document.getElementById('properties').classList.contains('active')) loadProperties();
+} else {
+alert('❌ Ошибка: ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка удаления:', error);
+alert('❌ Ошибка при удалении');
+}
+}
+
+async function deleteBanner(id) {
+try {
+const response = await fetch(`${API_BASE}/banners/${id}`, { method: 'DELETE' });
+const result = await response.json();
+if (result.success) {
+alert('✅ Баннер удален');
+document.getElementById(`banner-${id}`).remove();
+loadDashboard();
+if (document.getElementById('banners').classList.contains('active')) loadBanners();
+} else {
+alert('❌ Ошибка: ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка удаления:', error);
+alert('❌ Ошибка при удалении');
+}
+}
+
+async function deleteOrder(id) {
+try {
+const response = await fetch(`${API_BASE}/orders/${id}`, { method: 'DELETE' });
+const result = await response.json();
+if (result.success) {
+alert('✅ Заказ удален');
+document.getElementById(`order-${id}`).remove();
+loadDashboard();
+if (document.getElementById('orders').classList.contains('active')) loadOrders();
+} else {
+alert('❌ Ошибка: ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка удаления:', error);
+alert('❌ Ошибка при удалении');
+}
+}
+
+async function deleteRequest(id) {
+try {
+const response = await fetch(`${API_BASE}/sell-requests/${id}`, { method: 'DELETE' });
+const result = await response.json();
+if (result.success) {
+alert('✅ Заявка удалена');
+document.getElementById(`request-${id}`).remove();
+loadDashboard();
+if (document.getElementById('requests').classList.contains('active')) loadRequests();
+} else {
+alert('❌ Ошибка: ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка удаления:', error);
+alert('❌ Ошибка при удалении');
+}
+}
+
+async function updateRequestStatus(id, status) {
+try {
+const response = await fetch(`${API_BASE}/sell-requests/${id}/status`, {
+method: 'PUT',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({ status: status })
+});
+const result = await response.json();
+if (result.success) {
+alert('✅ Статус заявки обновлен');
+loadRequests();
+loadDashboard();
+} else {
+alert('❌ Ошибка: ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка обновления статуса:', error);
+alert('❌ Ошибка при обновлении статуса');
+}
+}
+
+async function updateOrderStatus(id, status) {
+try {
+const response = await fetch(`${API_BASE}/orders/${id}/status`, {
+method: 'PUT',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({ status: status })
+});
+const result = await response.json();
+if (result.success) {
+alert('✅ Статус заказа обновлен');
+loadOrders();
+loadDashboard();
+} else {
+alert('❌ Ошибка: ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка обновления статуса:', error);
+alert('❌ Ошибка при обновлении статуса');
+}
+}
+
+// === МОДАЛЬНОЕ ОКНО УДАЛЕНИЯ ===
+function prepareDelete(type, id) {
+deleteType = type;
+deleteId = id;
+let text = '';
+switch(type) {
+case 'property':
+text = 'Вы уверены, что хотите удалить это объявление? Оно будет скрыто из каталога.';
+break;
+case 'banner':
+text = 'Вы уверены, что хотите удалить этот баннер? Он будет скрыт с сайта.';
+break;
+case 'order':
+text = 'Вы уверены, что хотите удалить этот заказ? Он будет скрыт из списка.';
+break;
+case 'request':
+text = 'Вы уверены, что хотите удалить эту заявку? Она будет скрыта из списка.';
+break;
+case 'user':
+text = 'Вы уверены, что хотите деактивировать этого пользователя? Он не сможет входить в систему.';
+break;
+}
+document.getElementById('delete-modal-text').textContent = text;
+document.getElementById('delete-modal').classList.add('active');
+}
+
+function confirmDelete() {
+switch(deleteType) {
+case 'property':
+deleteProperty(deleteId);
+break;
+case 'banner':
+deleteBanner(deleteId);
+break;
+case 'order':
+deleteOrder(deleteId);
+break;
+case 'request':
+deleteRequest(deleteId);
+break;
+case 'user':
+deleteUser(deleteId);
+break;
+}
+closeDeleteModal();
+}
+
+function closeDeleteModal() {
+document.getElementById('delete-modal').classList.remove('active');
+deleteType = null;
+deleteId = null;
+}
+
+// === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
+function getStatusClass(status) {
+if (status.includes('Новая') || status.includes('Новый')) return 'status-new';
+if (status.includes('в работе') || status.includes('обраб')) return 'status-process';
+if (status.includes('заверш') || status.includes('готов') || status.includes('отправлен')) return 'status-done';
+return 'status-new';
+}
+
+function toggleBannerFields() {
+const page = document.getElementById('banner-page').value;
+const targetPropertyGroup = document.getElementById('target-property-group');
+const orderGroup = document.getElementById('banner-order-group');
+const linkGroup = document.getElementById('banner-link-group');
+targetPropertyGroup.style.display = 'none';
+orderGroup.style.display = 'block';
+linkGroup.style.display = 'block';
+if (page === 'thailand') {
+targetPropertyGroup.style.display = 'block';
+linkGroup.style.display = 'none';
+loadThailandPropertiesForSelect();
+}
+}
+
+// === ОБРАБОТЧИК ФОРМЫ ОБЪЯВЛЕНИЯ ===
+document.getElementById('property-form').addEventListener('submit', function(e) {
+e.preventDefault();
+if (!selectedFiles || selectedFiles.length === 0) {
+alert('Выберите хотя бы одно фото!');
+return;
+}
+const formData = new FormData(e.target);
+const submitBtn = document.getElementById('submit-btn');
+const progressContainer = document.getElementById('upload-progress-container');
+const progressBar = document.getElementById('progress-bar-inner');
+const progressPercentage = document.getElementById('progress-percentage');
+const uploadStatus = document.getElementById('upload-status');
+progressContainer.style.display = 'block';
+submitBtn.disabled = true;
+submitBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="15" stroke-dashoffset="60"><animate attributeName="stroke-dashoffset" dur="1.5s" repeatCount="indefinite" values="60;30;60"></animate></circle></svg> Отправка...';
+const xhr = new XMLHttpRequest();
+xhr.timeout = 3000000;
+xhr.upload.addEventListener('progress', function(event) {
+if (event.lengthComputable) {
+const percent = Math.round((event.loaded / event.total) * 100);
+progressBar.style.width = `${percent}%`;
+progressBar.textContent = `${percent}%`;
+progressPercentage.textContent = `${percent}%`;
+uploadStatus.innerHTML = `
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+Отправляется: ${percent}% (${formatFileSize(event.loaded)} из ${formatFileSize(event.total)})
+`;
+uploadStatus.className = 'upload-status uploading';
+}
+});
+xhr.addEventListener('load', function() {
+if (xhr.status === 200) {
+try {
+const result = JSON.parse(xhr.responseText);
+if (result.success) {
+uploadStatus.innerHTML = `
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M20 6L9 17l-5-5"></path>
+</svg>
+✅ Файлы загружены. Обработка на сервере...
+`;
+uploadStatus.className = 'upload-status processing';
+setTimeout(() => {
+uploadStatus.innerHTML = `
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<path d="M20 6L9 17l-5-5"></path>
+</svg>
+✅ Готово! ${result.uploaded_count} фото загружено за ${result.processing_time} сек
+`;
+uploadStatus.className = 'upload-status success';
+alert(`✅ ${result.message}
+ID: ${result.id}`);
+e.target.reset();
+selectedFiles = [];
+progressContainer.style.display = 'none';
+submitBtn.disabled = true;
+submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg> Создать объявление';
+loadDashboard();
+showTab('properties');
+}, 1000);
+} else {
+throw new Error(result.error || 'Неизвестная ошибка');
+}
+} catch (error) {
+uploadStatus.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke="red"></circle></svg> ❌ Ошибка: ${error.message}`;
+uploadStatus.className = 'upload-status error';
+submitBtn.disabled = false;
+submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg> Создать объявление';
+}
+} else {
+uploadStatus.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke="red"></circle></svg> ❌ Ошибка сервера (${xhr.status})`;
+uploadStatus.className = 'upload-status error';
+submitBtn.disabled = false;
+submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg> Создать объявление';
+}
+});
+xhr.addEventListener('error', function() {
+uploadStatus.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke="red"></circle></svg> ❌ Ошибка сети. Сервер недоступен.';
+uploadStatus.className = 'upload-status error';
+submitBtn.disabled = false;
+submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg> Создать объявление';
+});
+xhr.addEventListener('timeout', function() {
+uploadStatus.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke="red"></circle></svg> ⏱️ Превышено время ожидания (5 минут). Сервер обрабатывает файлы. Проверьте список объявлений.';
+uploadStatus.className = 'upload-status error';
+submitBtn.disabled = false;
+submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg> Создать объявление';
+});
+xhr.open('POST', `${API_BASE}/properties`, true);
+xhr.send(formData);
+});
+
+function formatFileSize(bytes) {
+if (bytes === 0) return '0 Б';
+const k = 1024;
+const sizes = ['Б', 'КБ', 'МБ', 'ГБ'];
+const i = Math.floor(Math.log(bytes) / Math.log(k));
+return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
+}
+
+document.getElementById('banner-form').addEventListener('submit', async (e) => {
+e.preventDefault();
+const formData = new FormData(e.target);
+const page = document.getElementById('banner-page').value;
+if (page === 'thailand') {
+const targetPropertyId = document.getElementById('target-property-select').value;
+if (!targetPropertyId) {
+alert('❌ Выберите объявление для баннера Таиланда!');
+return;
+}
+}
+try {
+const response = await fetch(`${API_BASE}/banners`, { method: 'POST', body: formData });
+const result = await response.json();
+if (result.success) {
+alert('✅ Баннер добавлен! ID: ' + result.id);
+e.target.reset();
+document.getElementById('target-property-group').style.display = 'none';
+document.getElementById('banner-order-group').style.display = 'block';
+document.getElementById('banner-link-group').style.display = 'block';
+loadBanners();
+loadDashboard();
+} else {
+alert('❌ Ошибка: ' + result.error);
+}
+} catch (error) {
+console.error('Ошибка добавления баннера:', error);
+alert('❌ Ошибка при добавлении');
+}
+});
+
+function editProperty(id) {
+alert('Редактирование объявления #' + id + '\nЭта функция будет реализована в следующей версии.');
+}
+
+function editBanner(id) {
+alert('Редактирование баннера #' + id + '\nЭта функция будет реализована в следующей версии.');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+loadDashboard();
+loadThailandPropertiesForSelect();
+});
+</script>
+</body>
+</html>
